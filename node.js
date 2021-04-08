@@ -1,11 +1,13 @@
 class Node{
-	constructor(id){
+	constructor(id, x, y){
 		this.id = id;
-		this.x = mouseX;
-		this.y = mouseY;
+		this.x = x;
+		this.y = y;
 		this.diameter = 60;
 		this.lines = [];
+		this.visited = false;
 		this.neighbours = [];
+		this.c = this.CheckColor();
 	}
 	
 	CheckMouse(){
@@ -15,8 +17,31 @@ class Node{
 		return false;
 	}
 
+	CheckColor(){
+		if(this.id == 1){
+			return color(0,200,100);
+		}else{
+		
+			if(this.id == 2){
+				return color(200,50,0);
+			}
+			return color(255,255,255);
+		}
+	}
+
 	Display(){
 		
+		fill(this.c);	
 		ellipse(this.x, this.y, this.diameter, this.diameter);
+		if(this.id == 1){
+			fill(0);
+			textSize(13);
+			text("Start", this.x-10, this.y);
+		}
+		if(this.id == 2){
+			fill(0);
+			textSize(13);
+			text("End", this.x-10, this.y);
+		}
 	}
 }
