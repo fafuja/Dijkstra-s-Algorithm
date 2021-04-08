@@ -84,11 +84,14 @@ function mouseDragged(){
 function keyTyped(){
 	if(key === 'q'){
 		if(overObj){
-			linking = true;
-			let line = new Line(currentObj.x, currentObj.y, mouseX, mouseY, currentObj, null);
-			lines.push(line);
-			currentObj.lines.push(line);
-			currentLine = line;
+			if(currentObj.id != 1 && currentObj.id != 2)
+			{
+				linking = true;
+				let line = new Line(currentObj.x, currentObj.y, mouseX, mouseY, currentObj, null);
+				lines.push(line);
+				currentObj.lines.push(line);
+				currentLine = line;
+			}
 		}else{
 			linking = false;
 			
