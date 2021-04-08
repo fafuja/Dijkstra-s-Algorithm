@@ -4,6 +4,7 @@ class Node{
 		this.x = mouseX;
 		this.y = mouseY;
 		this.diameter = 60;
+		this.neighbours = [];
 	}
 	
 	CheckMouse(){
@@ -14,6 +15,7 @@ class Node{
 	}
 
 	Display(){
+		strokeWeight(2);
 		ellipse(this.x, this.y, this.diameter, this.diameter);
 	}
 }

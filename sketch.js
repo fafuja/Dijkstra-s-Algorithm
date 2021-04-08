@@ -3,9 +3,11 @@ let lines = [];
 let overObj = false;
 let lol = false;
 let currentObj;
+let linking = false;
 
 function setup(){
     	createCanvas(displayWidth, displayHeight);
+	strokeWeight(1.5);
 }
 
 function draw(){
@@ -30,11 +32,11 @@ function draw(){
 }
 
 function mouseReleased(){
-	if(!overObj && !lol){
+	if(!overObj){
 		objs.push(new Node("A"));
-		objs.push(new Node("B"));
-		lines.push(new Line(mouseX, mouseY, 0, 0));
-		lol = true;
+		//objs.push(new Node("B"));
+		//lines.push(new Line(mouseX, mouseY, 0, 0));
+		//lol = true;
 	}
 }
 
@@ -42,6 +44,15 @@ function mouseDragged(){
 	if(overObj){
 		currentObj.x = mouseX;
 		currentObj.y = mouseY;
-		
+	}
+}
+
+function keyTyped(){
+	if(keyCode === 'q'){
+		if(overObj){
+			linking = true;
+		}else{
+			linking = false;
+		}
 	}
 }
