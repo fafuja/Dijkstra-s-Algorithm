@@ -8,9 +8,11 @@ class Line{
 	}
 	
 	Distance(){
-		return sqrt(pow((finalPos.x-initialPos.x), 2) + pow((finalPos.y - initialPos.y), 2));
+		return sqrt(pow((this.finalPos.x-this.initialPos.x), 2) + pow((this.finalPos.y - this.initialPos.y), 2));
 	}
 	Display(){
+		textSize(15);
+		text(this.Distance().toFixed(2), this.finalPos.x + (this.initialPos.x - this.finalPos.x)/2 + 10, this.finalPos.y + (this.initialPos.y - this.finalPos.y)/2 + 10)
 		fill(this.c);
 		line(this.initialPos.x, this.initialPos.y, this.finalPos.x, this.finalPos.y);
 	}

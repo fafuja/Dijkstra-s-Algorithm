@@ -6,7 +6,7 @@ let currentLine = null;
 let linking = false;
 
 function setup(){
-    	createCanvas(displayWidth, displayHeight);
+    createCanvas(displayWidth, displayHeight);
 	strokeWeight(1.5);
 	objs.push(new Node(1, displayWidth/2, displayHeight/6));
 	objs.push(new Node(2, displayWidth/2, displayHeight/6 + displayHeight/2))
