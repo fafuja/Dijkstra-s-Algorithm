@@ -6,6 +6,8 @@ let currentLine = null;
 let linking = false;
 let running = false;
 let unvisitedNodes = [];
+let paths = [];
+let idNodeCounter = 3;
 
 function setup(){
     	createCanvas(displayWidth, displayHeight);
@@ -46,6 +48,7 @@ function draw(){
 function mouseReleased(){
 	if(!overObj && !linking && !running){
 		objs.push(new Node(0, mouseX, mouseY));
+		//idNodeCounter++;
 	}else{
 		if(linking){	
 			if(currentLine.firstNode != currentObj){
@@ -155,9 +158,17 @@ function keyTyped(){
 			}else{
 				objs[i].distance = Infinity;
 			}
+			objs[i].prevNode = null;
+			objs[i].visited = false;
 			unvisitedNodes[i] = objs[i];
 		}
 		ComputePath(objs[0]);
+		unvisitedNodes = [];
+		for(let i = 0; i < paths.length - 1; i++){
+			GetLine(paths[i], paths[i+1]).c = color(0, 200, 50);
+		}
+		paths = [];
+		running = false;
 	}
 
 	if(key === 't'){
@@ -168,62 +179,79 @@ function keyTyped(){
 }
 
 function ComputePath(node){
-	let neighbours = [];
-	let closestNeighbour = [null, Infinity];
-	let hasEndNode = false;
-	for(let i = 0; i < node.lines.length; i++){
-		if(node.lines[i].firstNode == node && node.lines[i].firstNode.visited == false){
-			neighbours.push([node.lines[i].secondNode, node.lines[i].distance]);
-		}
-		if(node.lines[i].secondNode == node && node.lines[i].secondNode.visited == false){
-			neighbours.push([node.lines[i].firstNode, node.lines[i].distance]);
-		}
-	}
-
-	for(let i = 0; i < unvisitedNodes.length; i++){
-		for(let j = 0; j < neighbours.length; j++){
-			if(unvisitedNodes[i] == neighbours[j][0]){
-				if(neighbours[j][0].id == 2){
-					console.log("caguei");
-					closestNeighbour[0] = neighbours[j][0];
-					hasEndNode = true;
-					break;
-				}
-				let temp = node.distance + neighbours[j][1];
-				if(temp < neighbours[j][0].distance){
-					neighbours[j][0].distance = temp;
-				}
-				if(neighbours[j][0].distance < closestNeighbour[1]){
-					closestNeighbour[0] = neighbours[j][0];
-					closestNeighbour[1] = neighbours[j][0].distance;
-				}
-			}
-		}
-		if(hasEndNode){
-			break;
-		}
-	}
 	
-	node.visited = true;
 	for(let i = 0; i < unvisitedNodes.length; i++){
 		if(node == unvisitedNodes[i]){
 			unvisitedNodes.splice(i, 1);
+			node.visited = true;
+		}
+	}
+		
+	if(node.id == 2){
+		let u = node;
+		if(u.prevNode != null || u == objs[0]){
+			while(u != null){
+				paths.push(u);
+				u = u.prevNode;
+			}
+		}
+		return;
+	}
+
+	let neighbours = [];
+
+	for(let i = 0; i < node.lines.length; i++){
+		if(node.lines[i].firstNode == node && node.lines[i].secondNode.visited == false){
+			neighbours.push(node.lines[i].secondNode);
+		}
+		if(node.lines[i].secondNode == node && node.lines[i].firstNode.visited == false){ 
+			neighbours.push(node.lines[i].firstNode);
+		}
+	}
+	for(let i = 0; i < unvisitedNodes.length; i++){
+		for(let j = 0; j < neighbours.length; j++){
+			if(unvisitedNodes[i] == neighbours[j]){
+				let temp = node.distance + LineDistance(node, neighbours[j]);
+				if(temp < neighbours[j].distance){
+					neighbours[j].distance = temp;
+					neighbours[j].prevNode = node;
+				}
+			}
 		}
 	}
 	
+	let closestNode = [null, Infinity];
+	for(let i = 0; i < unvisitedNodes.length; i++){
+		if(unvisitedNodes[i].distance < closestNode[1]){
+			closestNode[0] = unvisitedNodes[i];
+		}
+	}
+
+	ComputePath(closestNode[0]);
+
+}
+
+function LineDistance(n1, n2){
 	for(let i = 0; i < lines.length; i++){
-		if(lines[i].firstNode == node && lines[i].secondNode == closestNeighbour[0])
-		{
-			lines[i].c = color(0, 200, 50);
+		if(lines[i].firstNode == n1 && lines[i].secondNode == n2){
+			return lines[i].distance;
 		}
-		if(lines[i].secondNode == node && lines[i].firstNode == closestNeighbour[0])
-		{
-			lines[i].c = color(0, 200, 50);
+		if(lines[i].secondNode == n1 && lines[i].firstNode == n2){
+			return lines[i].distance;
 		}
 	}
-	if(node.id == 2){
-		running = false;
-		return 1;
+}
+
+function GetLine(n1, n2){
+	for(let i = 0; i < lines.length; i++){
+		if(lines[i].firstNode == n1 && lines[i].secondNode == n2)
+		{
+			return lines[i];
+		}
+		if(lines[i].secondNode == n1 && lines[i].firstNode == n2)
+		{
+			return lines[i];
+		}
 	}
-	ComputePath(closestNeighbour[0]);
+
 }

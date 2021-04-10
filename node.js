@@ -8,6 +8,7 @@ class Node{
 		this.visited = false;
 		this.c = this.CheckColor();
 		this.distance = null;
+		this.prevNode = null;
 	}
 	
 	CheckMouse(){
