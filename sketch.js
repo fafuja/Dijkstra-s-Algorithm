@@ -41,7 +41,7 @@ function draw(){
 	strokeWeight(0);
 	fill(0);
 	textSize(25);
-	text("< Dijkstra's Algorithm > \n'd' - Delete node\n'Left Mouse Button' - Create node\n'q' - Link nodes", 50, 50);
+	text("< Dijkstra's Algorithm > \n'd' - Delete node\n'Left Mouse Button' - Create node\n'q' - Link nodes\n'r' - Run simulation", 50, 50);
 }
 
 function mouseReleased(){
@@ -150,6 +150,9 @@ function keyTyped(){
 		}
 		
 		running = true;
+		for(let i = 0; i < lines.length; i++){
+			lines[i].c = color(0);
+		}
 		for(let i = 0; i < objs.length; i++){
 			if(objs[i].id == 1){
 				objs[i].distance = 0;
