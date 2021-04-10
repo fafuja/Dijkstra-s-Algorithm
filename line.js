@@ -4,7 +4,7 @@ class Line{
 		this.finalPos = createVector(x2, y2);
 		this.firstNode = fNode;
 		this.secondNode = sNode;
-		this.c = color(0, 200, 0);
+		this.c = color(0, 0, 0);
 		this.distance = this.Distance();
 	}
 	

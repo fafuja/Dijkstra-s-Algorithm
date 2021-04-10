@@ -200,10 +200,14 @@ function ComputePath(node){
 		}
 	}
 
-	for(let i = 0; i < node.lines.length; i++){
-		if((node.lines[i].firstNode == node && node.lines[i].secondNode == closestNeighbour) || (node.lines[i].secondNode == node && node.lines[i].firstNode == closestNeighbour)){
-			node.lines[i].c = color(0);
-			node.lines[i].Display();
+	for(let i = 0; i < lines.length; i++){
+		if(lines[i].firstNode == node && lines[i].secondNode == closestNeighbour[0])
+		{
+			lines[i].c = color(0, 200, 50);
+		}
+		if(lines[i].secondNode == node && lines[i].firstNode == closestNeighbour[0])
+		{
+			lines[i].c = color(0, 200, 50);
 		}
 	}
 	if(unvisitedNodes.length < 1){
