@@ -170,6 +170,7 @@ function keyTyped(){
 function ComputePath(node){
 	let neighbours = [];
 	let closestNeighbour = [null, Infinity];
+	let hasEndNode = false;
 	for(let i = 0; i < node.lines.length; i++){
 		if(node.lines[i].firstNode == node && node.lines[i].firstNode.visited == false){
 			neighbours.push([node.lines[i].secondNode, node.lines[i].distance]);
@@ -178,9 +179,16 @@ function ComputePath(node){
 			neighbours.push([node.lines[i].firstNode, node.lines[i].distance]);
 		}
 	}
+
 	for(let i = 0; i < unvisitedNodes.length; i++){
 		for(let j = 0; j < neighbours.length; j++){
 			if(unvisitedNodes[i] == neighbours[j][0]){
+				if(neighbours[j][0].id == 2){
+					console.log("caguei");
+					closestNeighbour[0] = neighbours[j][0];
+					hasEndNode = true;
+					break;
+				}
 				let temp = node.distance + neighbours[j][1];
 				if(temp < neighbours[j][0].distance){
 					neighbours[j][0].distance = temp;
@@ -191,6 +199,9 @@ function ComputePath(node){
 				}
 			}
 		}
+		if(hasEndNode){
+			break;
+		}
 	}
 	
 	node.visited = true;
@@ -199,7 +210,7 @@ function ComputePath(node){
 			unvisitedNodes.splice(i, 1);
 		}
 	}
-
+	
 	for(let i = 0; i < lines.length; i++){
 		if(lines[i].firstNode == node && lines[i].secondNode == closestNeighbour[0])
 		{
@@ -210,7 +221,7 @@ function ComputePath(node){
 			lines[i].c = color(0, 200, 50);
 		}
 	}
-	if(unvisitedNodes.length < 1){
+	if(node.id == 2){
 		running = false;
 		return 1;
 	}
