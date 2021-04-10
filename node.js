@@ -6,8 +6,8 @@ class Node{
 		this.diameter = 60;
 		this.lines = [];
 		this.visited = false;
-		this.neighbours = [];
 		this.c = this.CheckColor();
+		this.distance = null;
 	}
 	
 	CheckMouse(){
@@ -31,8 +31,11 @@ class Node{
 
 	Display(){
 		
-		fill(this.c);	
+		fill(this.c);
+		strokeWeight(1.5);
+		stroke(0);
 		ellipse(this.x, this.y, this.diameter, this.diameter);
+		strokeWeight(0.3);
 		if(this.id == 1){
 			fill(0);
 			textSize(13);
