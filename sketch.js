@@ -7,7 +7,6 @@ let linking = false;
 let running = false;
 let unvisitedNodes = [];
 let paths = [];
-let idNodeCounter = 3;
 
 function setup(){
     	createCanvas(displayWidth, displayHeight);
@@ -48,7 +47,6 @@ function draw(){
 function mouseReleased(){
 	if(!overObj && !linking && !running){
 		objs.push(new Node(0, mouseX, mouseY));
-		//idNodeCounter++;
 	}else{
 		if(linking){	
 			if(currentLine.firstNode != currentObj){
